@@ -1,13 +1,11 @@
-package com.task.kakaopay;
+package com.task.kakaopay.util;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.junit.jupiter.api.Test;
-
-import com.task.kakaopay.util.TokenUtil;
-
+import org.springframework.boot.test.context.SpringBootTest;
+@SpringBootTest
 public class TokenTest {
 
 	@Test
