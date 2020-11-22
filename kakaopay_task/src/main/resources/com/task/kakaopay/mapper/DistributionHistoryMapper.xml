@@ -49,4 +49,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           user_id_taken=#{userIdTaken}
           WHERE distribution_no=#{distributionNo}
     </update>
+    
+    <update id="initializingAsIncrement">
+        ALTER TABLE distribution_history AUTO_INCREMENT=1;
+        SET @COUNT = 0;
+        UPDATE distribution_history SET distribution_no = @COUNT:=@COUNT+1;
+    </update>
 </mapper>

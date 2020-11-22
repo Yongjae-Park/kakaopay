@@ -53,5 +53,10 @@ public class DistributionHistoryServiceImpl implements DistributionHistoryServic
 		
 		return returnJson;
 	}
+
+	@Override
+	public void initializingAutoIncrement() throws Exception {
+		mapper.initializingAsIncrement();
+	}
 	
 }

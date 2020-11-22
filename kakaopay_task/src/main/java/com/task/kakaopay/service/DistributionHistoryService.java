@@ -20,4 +20,9 @@ public interface DistributionHistoryService {
      * @throws Exception
      */
     public JSONObject getOneDsHistory(String token, String x_user_id) throws Exception;
+    
+    /**
+     * service for initializing AutoIncrement key
+     */
+    public void initializingAutoIncrement() throws Exception;
 }
