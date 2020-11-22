@@ -1,6 +1,6 @@
-package com.task.kakaopay.domain;
+package com.task.kakaopay.vo;
 
-public class CommonRequestDto {
+public class CommonRequestVO {
 	public String getToken() {
 		return token;
 	}

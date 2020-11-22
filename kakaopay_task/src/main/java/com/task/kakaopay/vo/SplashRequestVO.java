@@ -1,6 +1,6 @@
-package com.task.kakaopay.domain;
+package com.task.kakaopay.vo;
 
-public class SplashRequestDto {
+public class SplashRequestVO {
 	public int getSplashedMoney() {
 		return splashedMoney;
 	}
