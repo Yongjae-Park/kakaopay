@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.task.kakaopay.mapper.SplashMapper">
+    
+    <insert id="createSplash">
+        INSERT INTO splash
+            (
+              token,
+              x_user_id,
+              x_room_id,
+              splashed_money,
+              personnel,
+              created_at,
+              modified_at,
+              expired_at
+            )
+        VALUES
+            (
+              #{token},
+              #{x_user_id},
+              #{x_room_id},
+              #{splashedMoney},
+              #{personnel},
+              #{createdAt},
+              #{modifiedAt},
+              date_add(now(), interval 7 day)
+            )
+    </insert>
+    
+    <!-- get 1 splashed -->
+    <select id="getOneSplashed">
+    	
+    </select>
+    
+    <resultMap id="resultLookUpInfo" type="LookUpInfoVO">
+    	<result property="token" column="token"/>
+    	<result property="createdAt" column="created_at"/>
+    	<result property="expiredAt" column="expired_at"/>
+    	<result property="splashedMoney" column="splashed_money"/>
+    	<result property="allocatedMoney" column="allocated_money"/>
+    	<result property="userIdTaken" column="user_id_taken"/>
+    	<result property="isCompleted" column="is_completed"/>
+    </resultMap>
+    <select id="selectAllLookUpInfo" resultMap="resultLookUpInfo">
+    	SELECT a.token, a.created_at, a.expired_at, a.splashed_money, b.allocated_money, b.user_id_taken, b.is_completed
+    	from splash a, distribution_history b
+    	where a.token =#{token} and b.token=#{token}
+    </select>
+    
+    
+    
+    
+</mapper>

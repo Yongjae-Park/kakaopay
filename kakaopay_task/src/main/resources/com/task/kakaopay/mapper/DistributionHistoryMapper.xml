@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.task.kakaopay.mapper.DistributionHistoryMapper">
+    
+    <insert id="createDsHistory" >
+        INSERT INTO distribution_history
+            (
+              token,
+              user_id_splashed,
+              user_id_taken,
+              allocated_money,
+              is_completed,
+              created_at,
+              modified_at,
+              expired_at
+            )
+        VALUES
+            (
+              #{token},
+              #{userIdSplashed},
+              #{userIdTaken},
+              #{allocatedMoney},
+              #{completed},
+              #{createdAt},
+              #{modifiedAt},
+              date_add(now(), interval 10 minute)
+            )
+    </insert>
+    <!-- select one Distribution history -->
+    <resultMap id="resultGetDs" type="GetDsVO">
+    	<result property="userIdSplashed" column="user_id_splashed"/>
+    	<result property="distributionNo" column="distribution_no"/>
+    	<result property="isCompleted" column="is_completed"/>
+    	<result property="allocatedMoney" column="allocated_money"/>
+    </resultMap>
+    <select id="getOneDsHistory" resultMap="resultGetDs">
+    	SELECT user_id_splashed, distribution_no, is_completed, allocated_money
+    	FROM distribution_history
+    	where token = #{token} and is_completed ='false' limit 1
+    </select>
+    
+    <!-- update one Distribution history is completed -->
+    <update id="updateisCompleted">
+        UPDATE distribution_history SET
+          is_completed=true,
+          user_id_taken=#{userIdTaken}
+          WHERE distribution_no=#{distributionNo}
+    </update>
+</mapper>
