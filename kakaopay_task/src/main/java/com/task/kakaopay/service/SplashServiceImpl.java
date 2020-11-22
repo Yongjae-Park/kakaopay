@@ -2,13 +2,17 @@ package com.task.kakaopay.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import com.task.kakaopay.domain.DistributionHistory;
 import com.task.kakaopay.domain.Splash;
 import com.task.kakaopay.mapper.SplashMapper;
+import com.task.kakaopay.util.DistributionUtil;
 import com.task.kakaopay.vo.LookUpInfoVO;
 import com.task.kakaopay.vo.SelectSplashVO;
 import com.task.kakaopay.vo.UserVO;
@@ -17,17 +21,41 @@ import com.task.kakaopay.vo.UserVO;
 public class SplashServiceImpl implements SplashService {
     
 	@Autowired
-	private SplashMapper mapper;
+	private SplashMapper splashMapper;
+	@Autowired
+	private DistributionHistoryService dsHistoryService;
 
+	@Transactional
 	@Override
-	public void registeSplash(Splash splash) throws Exception {
-		mapper.createSplash(splash);
+	public Map<String,String> registeSplashAndDistributions(Splash splash) throws Exception {
+		
+		Map<String,String> tokenMap = new HashMap<>();
+		splashMapper.createSplash(splash);
+		int splashedMoney = splash.getSplashedMoney();
+    	int personnel = splash.getPersonnel();
+    	String token = splash.getToken();
+    	String userIdSplashed = splash.getX_user_id();
+		//call service Inserting Into Distribution_history
+    	List<Integer> allocatedMoneyList = DistributionUtil.divideSplashedMoney(splashedMoney, personnel);
+    	
+    	DistributionHistory dsHistory = new DistributionHistory();
+    	dsHistory.setToken(token);
+    	dsHistory.setUserIdSplashed(userIdSplashed);//뿌리는 유저 id
+    	dsHistory.setCompleted(false); //false set in initial setting
+    	
+    	for(int i=0;i<personnel;i++) {
+    		dsHistory.setAllocatedMoney(allocatedMoneyList.get(i));
+    		dsHistoryService.register(dsHistory);
+    	}
+    	tokenMap.put("token", token);
+    	return tokenMap;
 	}
+	
 	@Override
 	public SelectSplashVO getSplashInfo(String token) throws Exception {
 		
 		SelectSplashVO returnVO = new SelectSplashVO();
-		List<LookUpInfoVO> lookUpInfoVOList = mapper.selectAllLookUpInfo(token);
+		List<LookUpInfoVO> lookUpInfoVOList = splashMapper.selectAllLookUpInfo(token);
 		List<UserVO> userVOList = new ArrayList<>();
 		int completedMoney = 0;
 		for(LookUpInfoVO vo : lookUpInfoVOList) {
@@ -43,7 +71,6 @@ public class SplashServiceImpl implements SplashService {
 		returnVO.setCompletedMoney(completedMoney);
 		returnVO.setSplashedMoney(lookUpInfoVOList.get(0).getSplashedMoney());
 		returnVO.setUserList(userVOList);
-		
 		return returnVO;
 	}
 	

@@ -1,8 +1,5 @@
 package com.task.kakaopay.mapper;
 
-import java.sql.Timestamp;
-import java.util.List;
-
 import com.task.kakaopay.domain.DistributionHistory;
 import com.task.kakaopay.vo.GetDsVO;
 

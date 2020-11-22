@@ -4,6 +4,11 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class SelectSplashVO {
+	private Timestamp createdAt;
+	private int splashedMoney;
+	private int completedMoney;
+	private List<UserVO> userList;
+	
 	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
@@ -28,8 +33,5 @@ public class SelectSplashVO {
 	public void setUserList(List<UserVO> userList) {
 		this.userList = userList;
 	}
-	private Timestamp createdAt;
-	private int splashedMoney;
-	private int completedMoney;
-	private List<UserVO> userList;
+
 }
