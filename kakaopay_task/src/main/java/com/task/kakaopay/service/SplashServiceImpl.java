@@ -36,7 +36,7 @@ public class SplashServiceImpl implements SplashService {
     	String token = splash.getToken();
     	String userIdSplashed = splash.getX_user_id();
 		//call service Inserting Into Distribution_history
-    	List<Integer> allocatedMoneyList = DistributionUtil.divideSplashedMoney(splashedMoney, personnel);
+    	int[] allocatedMoneyList = DistributionUtil.divideSplashedMoney(splashedMoney, personnel);
     	
     	DistributionHistory dsHistory = new DistributionHistory();
     	dsHistory.setToken(token);
@@ -44,7 +44,7 @@ public class SplashServiceImpl implements SplashService {
     	dsHistory.setCompleted(false); //false set in initial setting
     	
     	for(int i=0;i<personnel;i++) {
-    		dsHistory.setAllocatedMoney(allocatedMoneyList.get(i));
+    		dsHistory.setAllocatedMoney(allocatedMoneyList[i]);
     		dsHistoryService.register(dsHistory);
     	}
     	tokenMap.put("token", token);
@@ -53,7 +53,7 @@ public class SplashServiceImpl implements SplashService {
 	
 	@Override
 	public SelectSplashVO getSplashInfo(String token) throws Exception {
-		
+		//TODO: 7일 지난건은 조회 불가
 		SelectSplashVO returnVO = new SelectSplashVO();
 		List<LookUpInfoVO> lookUpInfoVOList = splashMapper.selectAllLookUpInfo(token);
 		List<UserVO> userVOList = new ArrayList<>();
