@@ -29,4 +29,8 @@ public class GetDsVO {
     private int distributionNo;
     private boolean isCompleted;
     private int allocatedMoney;
+    private String userIdTaken;
+	public String getUserIdTaken() {
+		return userIdTaken;
+	}
 }

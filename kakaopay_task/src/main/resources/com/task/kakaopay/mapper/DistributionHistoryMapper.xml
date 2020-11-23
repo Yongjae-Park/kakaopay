@@ -15,7 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
               is_completed,
               created_at,
               modified_at,
-              expired_at
+              expired_at,
+              x_room_id
             )
         VALUES
             (
@@ -26,7 +27,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
               #{completed},
               #{createdAt},
               #{modifiedAt},
-              date_add(now(), interval 10 minute)
+              date_add(now(), interval 10 minute),
+              #{xRoomId}
             )
     </insert>
     <!-- select one Distribution history -->
@@ -35,11 +37,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	<result property="distributionNo" column="distribution_no"/>
     	<result property="isCompleted" column="is_completed"/>
     	<result property="allocatedMoney" column="allocated_money"/>
+    	<result property="userIdTaken" column="user_id_taken"/>
     </resultMap>
     <select id="getOneDsHistory" resultMap="resultGetDs">
-    	SELECT user_id_splashed, distribution_no, is_completed, allocated_money
+    	SELECT user_id_splashed, distribution_no, is_completed, allocated_money, user_id_taken
     	FROM distribution_history
     	where token = #{token} and is_completed ='false' limit 1
+    </select>
+    
+    <!-- select userid have received the distribution -->
+    <select id="getUserIdTaken" resultType="string">
+    	SELECT user_id_taken
+    	FROM distribution_history
+    	WHERE token =#{token} and is_completed = true and user_id_taken=#{x_user_id}
     </select>
     
     <!-- update one Distribution history is completed -->

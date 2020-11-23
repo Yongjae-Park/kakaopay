@@ -7,5 +7,6 @@ public interface DistributionHistoryMapper {
 	 public void createDsHistory(DistributionHistory distributionHistory) throws Exception;
 	 public GetDsVO getOneDsHistory(String token, String x_user_id) throws Exception;
 	 public void updateisCompleted(int distributionNo, String userIdTaken) throws Exception;
+	 public String getUserIdTaken(String token, String x_user_id)throws Exception;
 	 public void initializingAsIncrement() throws Exception;
 }
