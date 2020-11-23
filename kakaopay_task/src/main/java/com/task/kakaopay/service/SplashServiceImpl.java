@@ -2,6 +2,7 @@ package com.task.kakaopay.service;
 
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,8 +67,10 @@ public class SplashServiceImpl implements SplashService {
 		//create_at만 가져와서 현재시간이랑 비교해보고 지났으면 아예 List<LookUpInfoVO> 가져오지 않고 예외처리
 		LocalDateTime initialCreatedTime = selectCreatedAt(token);
 		LocalDateTime currentTime = LocalDateTime.now();
-		Period period = Period.between(initialCreatedTime.toLocalDate(), currentTime.toLocalDate());
-	    if(period.getDays() > 10)
+		//for testCase..
+//		LocalDateTime testLocalTime = LocalDateTime.parse("2020-12-25T10:15:30");
+		long days = ChronoUnit.DAYS.between(initialCreatedTime.toLocalDate(),currentTime.toLocalDate());
+		if(days > 10)
 		    throw new CustomRuntimeException(UserExceptionType.HAS_EXPIRED_SPLASH);
 		List<LookUpInfoVO> lookUpInfoVOList = splashMapper.selectAllLookUpInfo(token);
 		List<UserVO> userVOList = new ArrayList<>();

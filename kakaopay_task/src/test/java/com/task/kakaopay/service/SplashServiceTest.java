@@ -1,5 +1,6 @@
 package com.task.kakaopay.service;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -43,21 +44,33 @@ public class SplashServiceTest {
     	Map<String,String> tokenMap = splashService.registeSplashAndDistributions(splashDataObject);
     	
     	System.out.println("tokenMap :" + tokenMap);
-    	//call registeSplashAndDistributions manytimes
-//    	List<String> userIdList = new ArrayList<>();
-//    	List<String> roomIdList = new ArrayList<>();
-//    	List<String> tokenList = new ArrayList<>();
-//    	List<Splash> splashDataObjectList = new ArrayList<>();
     	
 	}
 	
 	@Test
 	public void getSplashInfo() throws Exception{
-	// call registeSplashAndDistributions TEST
+	    //call registeSplashAndDistributions TEST
+		//success case
 		String token = "$5r";
 		String userId = "rion";
-		SelectSplashVO returnVO = splashService.getSplashInfo(token, userId);
+		SelectSplashVO returnVO_case1 = new SelectSplashVO();
+		returnVO_case1 = splashService.getSplashInfo(token, userId);
 		Gson gson = new Gson();
-		System.out.println("returnVO : " + gson.toJson(returnVO, SelectSplashVO.class));
+		System.out.println("returnVO : " + gson.toJson(returnVO_case1, SelectSplashVO.class));
+		
+		//exceptioncase
+		//ONLY_SPLASHED_USER
+//		SelectSplashVO returnVO_case2 = splashService.getSplashInfo(token, "rion2");
+		
+		//exceptioncase
+		//HAS_EXPIRED_FOR_LOOK_UP
+		//*SplashServiceImple 내 testLocalTime으로 test진행
+		//for testCase..
+        //LocalDateTime testLocalTime = LocalDateTime.parse("2020-12-25T10:15:30");
+        //long days = ChronoUnit.DAYS.between(initialCreatedTime.toLocalDate(),testLocalTime.toLocalDate());
+		SelectSplashVO returnVO_case3 = splashService.getSplashInfo(token, "rion3");
+		
+		
+		
 	}
 }
