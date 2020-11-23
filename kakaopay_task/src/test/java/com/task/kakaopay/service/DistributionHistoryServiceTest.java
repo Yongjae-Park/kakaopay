@@ -20,8 +20,8 @@ public class DistributionHistoryServiceTest {
 	
 	
 	@Test
-	public void selectOndDsHistoryServiceTest() throws Exception {
-		log.info("selectOndDsHistoryServiceTest");
+	public void getOnedDsHistoryServiceTest() throws Exception {
+		log.info("getOndDsHistoryServiceTest");
 		// call getOneDsHistory once TEST
 		//success case
 		Map<String,Integer> returnMapObject_case1 = dsHistoryService.getOneDsHistory("Inj", "muzy" , "room1");
