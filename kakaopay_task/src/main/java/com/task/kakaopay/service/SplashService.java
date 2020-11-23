@@ -1,9 +1,9 @@
 package com.task.kakaopay.service;
 
-import java.util.List;
 import java.util.Map;
 
 import com.task.kakaopay.domain.Splash;
+import java.time.LocalDateTime;
 import com.task.kakaopay.vo.SelectSplashVO;
 
 public interface SplashService {
@@ -20,8 +20,8 @@ public interface SplashService {
      * @return
      * @throws Exception
      */
-    public SelectSplashVO getSplashInfo(String token) throws Exception;
+    public SelectSplashVO getSplashInfo(String token, String xUserId) throws Exception;
     
-    
+    public LocalDateTime selectCreatedAt(String token)throws Exception;
     
 }

@@ -1,5 +1,8 @@
 package com.task.kakaopay.service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import com.task.kakaopay.domain.DistributionHistory;
 import com.task.kakaopay.domain.Splash;
+import com.task.kakaopay.enums.UserExceptionType;
+import com.task.kakaopay.exception.CustomRuntimeException;
 import com.task.kakaopay.mapper.SplashMapper;
 import com.task.kakaopay.util.DistributionUtil;
 import com.task.kakaopay.vo.LookUpInfoVO;
@@ -56,10 +61,20 @@ public class SplashServiceImpl implements SplashService {
 	}
 	
 	@Override
-	public SelectSplashVO getSplashInfo(String token) throws Exception {
-		//TODO: 7일 지난건은 조회 불가
+	public SelectSplashVO getSplashInfo(String token, String xUserId) throws Exception {
+
 		SelectSplashVO returnVO = new SelectSplashVO();
+		//create_at만 가져와서 현재시간이랑 비교해보고 지났으면 아예 List<LookUpInfoVO> 가져오지 않고 예외처리
+		LocalDateTime initialCreatedTime = selectCreatedAt(token);
+		LocalDateTime currentTime = LocalDateTime.now();
+		Period period = Period.between(initialCreatedTime.toLocalDate(), currentTime.toLocalDate());
+	    if(period.getDays() > 10)
+		    throw new CustomRuntimeException(UserExceptionType.HAS_EXPIRED_SPLASH);
 		List<LookUpInfoVO> lookUpInfoVOList = splashMapper.selectAllLookUpInfo(token);
+		//리스트 가져왔고 조회할수있는 사람인지 먼저 체크
+		if(!lookUpInfoVOList.get(0).getUserIdSplashed().equals(xUserId)) {
+			throw new CustomRuntimeException(UserExceptionType.ONLY_SPLASHED_USER);
+		}
 		List<UserVO> userVOList = new ArrayList<>();
 		int completedMoney = 0;
 		for(LookUpInfoVO vo : lookUpInfoVOList) {
@@ -71,11 +86,18 @@ public class SplashServiceImpl implements SplashService {
 				completedMoney+=vo.getAllocatedMoney();
 			}
 		}
+		//TODO:아직 completed안된 분배건에 대해서도 리스트 만들어주고있어
 		returnVO.setCreatedAt(lookUpInfoVOList.get(0).getCreatedAt());
 		returnVO.setCompletedMoney(completedMoney);
 		returnVO.setSplashedMoney(lookUpInfoVOList.get(0).getSplashedMoney());
 		returnVO.setUserList(userVOList);
 		return returnVO;
+	}
+
+	@Override
+	public LocalDateTime selectCreatedAt(String token) throws Exception {
+		LocalDateTime createdAt = splashMapper.selectCreatedAt(token);
+		return createdAt;
 	}
 	
 	

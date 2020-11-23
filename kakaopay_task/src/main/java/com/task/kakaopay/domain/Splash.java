@@ -1,6 +1,6 @@
 package com.task.kakaopay.domain;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Splash {
     public void setXUserId(String xUserId) {
@@ -27,22 +27,22 @@ public class Splash {
 	public void setPersonnel(int personnel) {
 		this.personnel = personnel;
 	}
-	public Timestamp getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
-	public Timestamp getModifiedAt() {
+	public LocalDateTime getModifiedAt() {
 		return modifiedAt;
 	}
-	public void setModifiedAt(Timestamp modifiedAt) {
+	public void setModifiedAt(LocalDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
-	public Timestamp getEndAt() {
+	public LocalDateTime getEndAt() {
 		return endAt;
 	}
-	public void setEndAt(Timestamp endAt) {
+	public void setEndAt(LocalDateTime endAt) {
 		this.endAt = endAt;
 	}
 	public String getXUserId() {
@@ -56,9 +56,9 @@ public class Splash {
     private String xRoomId;
     private int splashedMoney;
     private int personnel;
-    private Timestamp createdAt;
-    private Timestamp modifiedAt;
-    private Timestamp endAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
+    private LocalDateTime endAt;
     
     
 }

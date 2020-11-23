@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
               #{xRoomId},
               #{splashedMoney},
               #{personnel},
-              #{createdAt},
+              current_timestamp,
               #{modifiedAt},
               date_add(now(), interval 7 day)
             )
@@ -42,14 +42,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	<result property="splashedMoney" column="splashed_money"/>
     	<result property="allocatedMoney" column="allocated_money"/>
     	<result property="userIdTaken" column="user_id_taken"/>
+    	<result property="userIdSplashed" column="x_user_id"/>
     	<result property="isCompleted" column="is_completed"/>
     </resultMap>
     <select id="selectAllLookUpInfo" resultMap="resultLookUpInfo">
-    	SELECT a.token, a.created_at, a.expired_at, a.splashed_money, b.allocated_money, b.user_id_taken, b.is_completed
+    	SELECT a.token, a.created_at, a.expired_at, a.splashed_money, a.x_user_id, b.allocated_money, b.user_id_taken, b.is_completed
     	from splash a, distribution_history b
-    	where a.token =#{token} and b.token=#{token}
+    	where a.token =#{token} and b.token=#{token} and b.is_completed=1
     </select>
     
+    <resultMap id="resultCreateAt" type="java.time.LocalDateTime">
+    	<result property="createdAt" column="created_at"/>
+    </resultMap>
+    <select id="selectCreatedAt" resultMap="resultCreateAt">
+    	SELECT created_at
+    	FROM splash
+    	WHERE token=#{token}
+    </select>
     
     
     

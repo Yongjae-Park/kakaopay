@@ -1,32 +1,35 @@
 package com.task.kakaopay.vo;
 
-import java.sql.Timestamp;
-
+import java.time.LocalDateTime;
 
 public class LookUpInfoVO {
 	private String token;
-	private Timestamp createdAt;
-	private Timestamp expiredAt;
+	private LocalDateTime createdAt;
+	private LocalDateTime expiredAt;
 	private int splashedMoney;
 	private int allocatedMoney;
 	private String userIdTaken;
 	private boolean isCompleted;
+	private String userIdSplashed;
+	public String getUserIdSplashed() {
+		return userIdSplashed;
+	}
 	public String getToken() {
 		return token;
 	}
 	public void setToken(String token) {
 		this.token = token;
 	}
-	public Timestamp getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
-	public Timestamp getExpiredAt() {
+	public LocalDateTime getExpiredAt() {
 		return expiredAt;
 	}
-	public void setExpiredAt(Timestamp expiredAt) {
+	public void setExpiredAt(LocalDateTime expiredAt) {
 		this.expiredAt = expiredAt;
 	}
 	public int getSplashedMoney() {

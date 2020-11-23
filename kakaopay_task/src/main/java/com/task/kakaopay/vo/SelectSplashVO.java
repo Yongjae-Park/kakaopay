@@ -1,18 +1,18 @@
 package com.task.kakaopay.vo;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class SelectSplashVO {
-	private Timestamp createdAt;
+	private LocalDateTime createdAt;
 	private int splashedMoney;
 	private int completedMoney;
 	private List<UserVO> userList;
 	
-	public Timestamp getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 	public int getSplashedMoney() {

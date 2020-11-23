@@ -56,7 +56,6 @@ public class DistributionHistoryServiceImpl implements DistributionHistoryServic
         
 //		Map<String,Integer> returnMap = new HashMap<>();
 //		returnMap.put("winMoney", distributionVO.getAllocatedMoney());
-		
 		returnJson.put("winMoney",distributionVO.getAllocatedMoney());
 		
 		return returnJson;

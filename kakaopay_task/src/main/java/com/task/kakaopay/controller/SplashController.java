@@ -62,7 +62,7 @@ public class SplashController {
             @RequestBody CommonRequestVO commonRequestVO) throws Exception{
     	log.info("getSplashInfo");
     	String token = commonRequestVO.getToken();
-    	SelectSplashVO returnVO = splashService.getSplashInfo(token);
+    	SelectSplashVO returnVO = splashService.getSplashInfo(token, userId);
     	
     	return new ResponseEntity<SelectSplashVO>(returnVO, HttpStatus.OK);
     }
