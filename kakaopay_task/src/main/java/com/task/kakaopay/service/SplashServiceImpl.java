@@ -70,24 +70,25 @@ public class SplashServiceImpl implements SplashService {
 	    if(period.getDays() > 10)
 		    throw new CustomRuntimeException(UserExceptionType.HAS_EXPIRED_SPLASH);
 		List<LookUpInfoVO> lookUpInfoVOList = splashMapper.selectAllLookUpInfo(token);
-		//리스트 가져왔고 조회할수있는 사람인지 먼저 체크
-		if(!lookUpInfoVOList.get(0).getUserIdSplashed().equals(xUserId)) {
-			throw new CustomRuntimeException(UserExceptionType.ONLY_SPLASHED_USER);
-		}
 		List<UserVO> userVOList = new ArrayList<>();
 		int completedMoney = 0;
-		for(LookUpInfoVO vo : lookUpInfoVOList) {
-			UserVO tempUserVO = new UserVO();
-			tempUserVO.setAllocatedMoney(vo.getAllocatedMoney());
-			tempUserVO.setUserIdTaken(vo.getUserIdTaken());
-			userVOList.add(tempUserVO);
-			if(vo.getIsCompleted()) {
-				completedMoney+=vo.getAllocatedMoney();
+		//리스트 가져왔고 조회할수있는 사람인지 먼저 체크
+		if(lookUpInfoVOList.get(0).getUserIdTaken()!=null) {
+			if(!lookUpInfoVOList.get(0).getUserIdSplashed().equals(xUserId)) {
+				throw new CustomRuntimeException(UserExceptionType.ONLY_SPLASHED_USER);
+			}
+			for(LookUpInfoVO vo : lookUpInfoVOList) {
+				if(vo.getUserIdTaken()==null)
+					break;//완료되지 않은 건에대해서는 리스트에 넣어주지 않도록
+				UserVO tempUserVO = new UserVO();
+				tempUserVO.setAllocatedMoney(vo.getAllocatedMoney());
+				tempUserVO.setUserIdTaken(vo.getUserIdTaken());
+				userVOList.add(tempUserVO);
+				if(vo.getIsCompleted()) {
+					completedMoney+=vo.getAllocatedMoney();
+				}
 			}
 		}
-//		LocalDateTime formattedCreatedAt = lookUpInfoVOList.get(0).getCreatedAt().parse
-//				lookUpInfoVOList.get(0).getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
 		returnVO.setCreatedAt(lookUpInfoVOList.get(0).getCreatedAt());
 		returnVO.setCompletedMoney(completedMoney);
 		returnVO.setSplashedMoney(lookUpInfoVOList.get(0).getSplashedMoney());

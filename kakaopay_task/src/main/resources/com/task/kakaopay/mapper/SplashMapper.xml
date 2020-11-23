@@ -48,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectAllLookUpInfo" resultMap="resultLookUpInfo">
     	SELECT a.token, a.created_at, a.expired_at, a.splashed_money, a.x_user_id, b.allocated_money, b.user_id_taken, b.is_completed
     	from splash a, distribution_history b
-    	where a.token =#{token} and b.token=#{token} and b.is_completed=1
+    	where a.token =#{token} and b.token=#{token}
     </select>
     
     <resultMap id="resultCreateAt" type="java.time.LocalDateTime">
