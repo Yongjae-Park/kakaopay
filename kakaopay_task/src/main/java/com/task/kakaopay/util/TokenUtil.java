@@ -38,7 +38,7 @@ public class TokenUtil {
 				randomIndex = ThreadLocalRandom.current().nextInt(64);
 				token[i]=digits[randomIndex];
 			}
-			System.out.println(String.valueOf(token));
+//			System.out.println(String.valueOf(token));
 		}
 	    return String.valueOf(token);
 	}
