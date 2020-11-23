@@ -12,7 +12,7 @@ public class DivideTest {
 		int[] intList = DistributionUtil.divideSplashedMoney(splashedMoney, personnel);
 		
 		for(int i:intList) {
-			System.out.println("["+i+"]");
+//			System.out.println("["+i+"]");
 		}
 	}
 }

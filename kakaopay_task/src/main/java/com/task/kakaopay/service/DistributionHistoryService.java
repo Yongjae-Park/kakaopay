@@ -2,8 +2,6 @@ package com.task.kakaopay.service;
 
 import java.util.Map;
 
-import org.json.simple.JSONObject;
-
 import com.task.kakaopay.domain.DistributionHistory;
 
 public interface DistributionHistoryService {
@@ -13,16 +11,22 @@ public interface DistributionHistoryService {
 	 * @param distributionHistory
 	 * @throws Exception
 	 */
-    public void register(DistributionHistory distributionHistory) throws Exception;
+    public void registeDistributions(DistributionHistory distributionHistory) throws Exception;
     /**
      * service for selecting one ds and updating the completed flag
      * @param token
      * @param x_user_id
-     * @return
+     * @return MapObject - one distribution history information
      * @throws Exception
      */
     public Map<String,Integer> getOneDsHistory(String token, String x_user_id, String x_room_id) throws Exception;
-    
+    /**
+     * 
+     * @param token
+     * @param x_user_id
+     * @return String - userIdTaken
+     * @throws Exception
+     */
     public String getUserIdTaken(String token, String x_user_id) throws Exception;
     
     /**

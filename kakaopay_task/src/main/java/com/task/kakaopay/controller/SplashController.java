@@ -1,6 +1,5 @@
 package com.task.kakaopay.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.task.kakaopay.domain.Splash;
-import com.task.kakaopay.service.DistributionHistoryService;
 import com.task.kakaopay.service.SplashService;
 import com.task.kakaopay.util.TokenUtil;
 import com.task.kakaopay.vo.CommonRequestVO;
@@ -30,8 +28,6 @@ public class SplashController {
 	
 	@Autowired
     private SplashService splashService;
-	@Autowired
-	private DistributionHistoryService dsHistoryService;
 	
     @RequestMapping(value="", method= RequestMethod.POST)
     public ResponseEntity<Map<String,String>> register(@Validated @RequestHeader("X-USER-ID") String userId,

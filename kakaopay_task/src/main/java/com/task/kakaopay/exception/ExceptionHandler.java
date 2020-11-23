@@ -20,20 +20,16 @@ public class ExceptionHandler {
     @AllArgsConstructor
 	static class Error{
 		private int code;
-		private int status;
 		private String message;
 		public int getCode() {
 			return code;
-		}
-		public int getStatus() {
-			return status;
 		}
 		public String getMessage() {
 			return message;
 		}
 		
 		static Error create(BaseExceptionType exceptiontype) {
-			return new Error(exceptiontype.getErrorCode(), exceptiontype.getHttpStatus(), exceptiontype.getErrorMessage());
+			return new Error(exceptiontype.getErrorCode(), exceptiontype.getErrorMessage());
 		}
 	}
 }

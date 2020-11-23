@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +19,11 @@ import com.task.kakaopay.vo.GetDsVO;
 public class DistributionHistoryServiceImpl implements DistributionHistoryService{
 
 	@Autowired
-	private DistributionHistoryMapper mapper;
+	private DistributionHistoryMapper distributionMapper;
 	
 	@Override
-	public void register(DistributionHistory distributionHistory) throws Exception {
-		mapper.createDsHistory(distributionHistory);
+	public void registeDistributions(DistributionHistory distributionHistory) throws Exception {
+		distributionMapper.createDsHistory(distributionHistory);
 	}
 
 	@Transactional
@@ -37,14 +36,14 @@ public class DistributionHistoryServiceImpl implements DistributionHistoryServic
 			throw new CustomRuntimeException(UserExceptionType.DUPLICATED_USER);
 		}
 		//select one DistributionHistory
-		GetDsVO distributionVO = mapper.getOneDsHistory(token, x_user_id);
+		GetDsVO distributionVO = distributionMapper.getOneDsHistory(token, x_user_id);
+		//exception occur 3. does not match room id
+				if(!distributionVO.getxRoomId().equals(x_room_id)) {
+					throw new CustomRuntimeException(UserExceptionType.WRONG_ROOM_ACCESS);
+				}
 		//exception occur 2. when request user == userSplashed
 		if(distributionVO.getUserIdSplashed().equals(x_user_id)) {
 			throw new CustomRuntimeException(UserExceptionType.ANYONE_BUT_NOT_YOURSELF);
-		}
-		//exception occur 3. does not match room id
-		if(!distributionVO.getxRoomId().equals(x_room_id)) {
-			throw new CustomRuntimeException(UserExceptionType.WRONG_ROOM_ACCESS);
 		}
 		//exception occur 4. expired splash
 		LocalDateTime currentTime = LocalDateTime.now();
@@ -52,24 +51,22 @@ public class DistributionHistoryServiceImpl implements DistributionHistoryServic
 		if(duration.toSeconds() > 600)
 		    throw new CustomRuntimeException(UserExceptionType.HAS_EXPIRED_SPLASH);
 		//completion setting for have been received
-		mapper.updateisCompleted(distributionVO.getDistributionNo(), x_user_id);
-//        JSONObject returnJson = new JSONObject();
+		distributionMapper.updateisCompleted(distributionVO.getDistributionNo(), x_user_id);
         
 		Map<String,Integer> returnMap = new HashMap<>();
 		returnMap.put("winMoney", distributionVO.getAllocatedMoney());
-//		returnJson.put("winMoney",distributionVO.getAllocatedMoney());
 		
 		return returnMap;
 	}
 
 	@Override
 	public void initializingAutoIncrement() throws Exception {
-		mapper.initializingAsIncrement();
+		distributionMapper.initializingAsIncrement();
 	}
 
 	@Override
 	public String getUserIdTaken(String token, String x_user_id) throws Exception {
-		String userIdTaken = mapper.getUserIdTaken(token, x_user_id);
+		String userIdTaken = distributionMapper.getUserIdTaken(token, x_user_id);
 		return userIdTaken;
 	}
 	

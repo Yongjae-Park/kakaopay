@@ -1,10 +1,9 @@
 package com.task.kakaopay.service;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import com.task.kakaopay.domain.DistributionHistory;
 import com.task.kakaopay.domain.Splash;
 import com.task.kakaopay.enums.UserExceptionType;
@@ -55,7 +53,7 @@ public class SplashServiceImpl implements SplashService {
     	
     	for(int i=0;i<personnel;i++) {
     		dsHistory.setAllocatedMoney(allocatedMoneyList[i]);
-    		dsHistoryService.register(dsHistory);
+    		dsHistoryService.registeDistributions(dsHistory);
     	}
     	tokenMap.put("token", token);
     	return tokenMap;

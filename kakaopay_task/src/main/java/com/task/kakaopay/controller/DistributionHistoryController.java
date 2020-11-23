@@ -2,7 +2,6 @@ package com.task.kakaopay.controller;
 
 import java.util.Map;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.task.kakaopay.service.DistributionHistoryService;
-import com.task.kakaopay.service.SplashService;
 import com.task.kakaopay.vo.CommonRequestVO;
 
 import lombok.extern.java.Log;
@@ -26,8 +24,6 @@ public class DistributionHistoryController {
 
 	@Autowired
 	private DistributionHistoryService dsHistoryService;
-	@Autowired
-	private SplashService splashService;
 	
 	@RequestMapping(value="", method= RequestMethod.GET)
 	public ResponseEntity<Map<String,Integer>> getOneDsHistory(@Validated @RequestHeader("X-USER-ID") String x_user_id,
