@@ -2,7 +2,8 @@ package com.task.kakaopay.service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.Period;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class DistributionHistoryServiceImpl implements DistributionHistoryServic
 
 	@Transactional
 	@Override
-	public JSONObject getOneDsHistory(String token, String x_user_id, String x_room_id) throws Exception {
+	public Map<String,Integer> getOneDsHistory(String token, String x_user_id, String x_room_id) throws Exception {
 		//check user exception case before select 
 		//exception occur 1. when request user == userIdTaken
 		String userIdTaken = getUserIdTaken(token, x_user_id);
@@ -52,13 +53,13 @@ public class DistributionHistoryServiceImpl implements DistributionHistoryServic
 		    throw new CustomRuntimeException(UserExceptionType.HAS_EXPIRED_SPLASH);
 		//completion setting for have been received
 		mapper.updateisCompleted(distributionVO.getDistributionNo(), x_user_id);
-        JSONObject returnJson = new JSONObject();
+//        JSONObject returnJson = new JSONObject();
         
-//		Map<String,Integer> returnMap = new HashMap<>();
-//		returnMap.put("winMoney", distributionVO.getAllocatedMoney());
-		returnJson.put("winMoney",distributionVO.getAllocatedMoney());
+		Map<String,Integer> returnMap = new HashMap<>();
+		returnMap.put("winMoney", distributionVO.getAllocatedMoney());
+//		returnJson.put("winMoney",distributionVO.getAllocatedMoney());
 		
-		return returnJson;
+		return returnMap;
 	}
 
 	@Override

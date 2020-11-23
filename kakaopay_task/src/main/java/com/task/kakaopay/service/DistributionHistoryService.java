@@ -1,5 +1,7 @@
 package com.task.kakaopay.service;
 
+import java.util.Map;
+
 import org.json.simple.JSONObject;
 
 import com.task.kakaopay.domain.DistributionHistory;
@@ -19,7 +21,7 @@ public interface DistributionHistoryService {
      * @return
      * @throws Exception
      */
-    public JSONObject getOneDsHistory(String token, String x_user_id, String x_room_id) throws Exception;
+    public Map<String,Integer> getOneDsHistory(String token, String x_user_id, String x_room_id) throws Exception;
     
     public String getUserIdTaken(String token, String x_user_id) throws Exception;
     

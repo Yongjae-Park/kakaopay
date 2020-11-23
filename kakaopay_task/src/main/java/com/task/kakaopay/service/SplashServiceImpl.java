@@ -3,6 +3,7 @@ package com.task.kakaopay.service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +87,9 @@ public class SplashServiceImpl implements SplashService {
 				completedMoney+=vo.getAllocatedMoney();
 			}
 		}
-		//TODO:아직 completed안된 분배건에 대해서도 리스트 만들어주고있어
+//		LocalDateTime formattedCreatedAt = lookUpInfoVOList.get(0).getCreatedAt().parse
+//				lookUpInfoVOList.get(0).getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
 		returnVO.setCreatedAt(lookUpInfoVOList.get(0).getCreatedAt());
 		returnVO.setCompletedMoney(completedMoney);
 		returnVO.setSplashedMoney(lookUpInfoVOList.get(0).getSplashedMoney());
