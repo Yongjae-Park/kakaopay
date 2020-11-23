@@ -45,8 +45,8 @@ public class SplashController {
     	int personnel = splashRequestVO.getPersonnel();
     	
     	splashDataObject.setToken(token);
-    	splashDataObject.setX_user_id(userId);
-    	splashDataObject.setX_room_id(roomId);
+    	splashDataObject.setXUserId(userId);
+    	splashDataObject.setXRoomId(roomId);
     	splashDataObject.setSplashedMoney(splashedMoney);
     	splashDataObject.setPersonnel(personnel);
     	

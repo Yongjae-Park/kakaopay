@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;import org.springframework.format.number.money.CurrencyUnitFormatter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.task.kakaopay.domain.DistributionHistory;
+import com.task.kakaopay.enums.UserExceptionType;
+import com.task.kakaopay.exception.CustomRuntimeException;
 import com.task.kakaopay.mapper.DistributionHistoryMapper;
 import com.task.kakaopay.vo.GetDsVO;
 
@@ -26,30 +28,33 @@ public class DistributionHistoryServiceImpl implements DistributionHistoryServic
 
 	@Transactional
 	@Override
-	public JSONObject getOneDsHistory(String token, String x_user_id) throws Exception {
+	public JSONObject getOneDsHistory(String token, String x_user_id, String x_room_id) throws Exception {
+		//check user exception case before select 
+		//exception occur 1. when request user == userIdTaken
+		//		TODO: select추가 - 
+		String userIdTaken = getUserIdTaken(token, x_user_id);
+    	if(userIdTaken != null && userIdTaken.equals(x_user_id)) {
+			throw new CustomRuntimeException(UserExceptionType.DUPLICATED_USER);
+		}
+		
 		//select one DistributionHistory
 		GetDsVO distributionVO = mapper.getOneDsHistory(token, x_user_id);
+		//exception occur 2. when request user == userSplashed
+		if(distributionVO.getUserIdSplashed().equals(x_user_id)) {
+			throw new CustomRuntimeException(UserExceptionType.ANYONE_BUT_NOT_YOURSELF);
+		}
+		//TODO: exception occur 3. does not match room id
+//		if(.equals(x_room_id)) {
+//			throw new CustomRuntimeException(UserExceptionType.WRONG_ROOM_ACCESS);
+//		}
+		//TODO: exception occur 4. expired splash
+//		if())
+//		    throw new CustomRuntimeException(UserExceptionType.HAS_EXPIRED_SPLASH);
 		//completion setting for have been received
-		//
 		mapper.updateisCompleted(distributionVO.getDistributionNo(), x_user_id);
         JSONObject returnJson = new JSONObject();
 		
-		if(distributionVO.getUserIdSplashed().equals(x_user_id)) {
-			//x_user_id == user_id_splashed
-			returnJson.put("errorCode" , "002");
-			returnJson.put("erroMsg", "본인이 뿌린 돈은 받을 수 없습니다.");
-		}
-		else if(distributionVO.equals(null)) {
-			//all distributions is completed || TODO: the time is over
-			returnJson.put("errorCode" , "003");
-			returnJson.put("erroMsg","");
-		}
-		else {
-			//success case
-			//there are one or more distribution SPLASH about the token
-			//and request user(x_user_id) is not same with user_id_splashed
 			returnJson.put("winMoney",distributionVO.getAllocatedMoney());
-		}
 		
 		return returnJson;
 	}
@@ -57,6 +62,12 @@ public class DistributionHistoryServiceImpl implements DistributionHistoryServic
 	@Override
 	public void initializingAutoIncrement() throws Exception {
 		mapper.initializingAsIncrement();
+	}
+
+	@Override
+	public String getUserIdTaken(String token, String x_user_id) throws Exception {
+		String userIdTaken = mapper.getUserIdTaken(token, x_user_id);
+		return userIdTaken;
 	}
 	
 }

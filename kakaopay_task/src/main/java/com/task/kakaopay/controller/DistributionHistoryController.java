@@ -42,7 +42,7 @@ public class DistributionHistoryController {
             @RequestBody CommonRequestVO commonRequestVO) throws Exception{ 
 		log.info("getOneDsHistory");
 		//call service selecting one ds and updating the completed flag
-		JSONObject returnJsonObject = dsHistoryService.getOneDsHistory(commonRequestVO.getToken(), x_user_id);
+		JSONObject returnJsonObject = dsHistoryService.getOneDsHistory(commonRequestVO.getToken(), x_user_id, roomId);
 		return new ResponseEntity<JSONObject>(returnJsonObject, HttpStatus.OK);
 	}
 }

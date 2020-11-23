@@ -34,14 +34,18 @@ public class SplashServiceImpl implements SplashService {
 		int splashedMoney = splash.getSplashedMoney();
     	int personnel = splash.getPersonnel();
     	String token = splash.getToken();
-    	String userIdSplashed = splash.getX_user_id();
+    	String userIdSplashed = splash.getXUserId();
+    	String xRoomId = splash.getXRoomId();
+    	
 		//call service Inserting Into Distribution_history
+    	//get devided money array
     	int[] allocatedMoneyList = DistributionUtil.divideSplashedMoney(splashedMoney, personnel);
     	
     	DistributionHistory dsHistory = new DistributionHistory();
     	dsHistory.setToken(token);
     	dsHistory.setUserIdSplashed(userIdSplashed);//뿌리는 유저 id
     	dsHistory.setCompleted(false); //false set in initial setting
+    	dsHistory.setXRoomId(xRoomId);
     	
     	for(int i=0;i<personnel;i++) {
     		dsHistory.setAllocatedMoney(allocatedMoneyList[i]);

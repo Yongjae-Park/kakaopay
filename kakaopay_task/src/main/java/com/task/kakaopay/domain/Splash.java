@@ -3,11 +3,11 @@ package com.task.kakaopay.domain;
 import java.sql.Timestamp;
 
 public class Splash {
-    public void setX_user_id(String x_user_id) {
-		this.x_user_id = x_user_id;
+    public void setXUserId(String xUserId) {
+		this.xUserId = xUserId;
 	}
-	public void setX_room_id(String x_room_id) {
-		this.x_room_id = x_room_id;
+	public void setXRoomId(String xRoomId) {
+		this.xRoomId = xRoomId;
 	}
 	public String getToken() {
 		return token;
@@ -45,15 +45,15 @@ public class Splash {
 	public void setEndAt(Timestamp endAt) {
 		this.endAt = endAt;
 	}
-	public String getX_user_id() {
-		return x_user_id;
+	public String getXUserId() {
+		return xUserId;
 	}
-	public String getX_room_id() {
-		return x_room_id;
+	public String getXRoomId() {
+		return xRoomId;
 	}
 	private String token;
-    private String x_user_id;
-    private String x_room_id;
+    private String xUserId;
+    private String xRoomId;
     private int splashedMoney;
     private int personnel;
     private Timestamp createdAt;

@@ -12,6 +12,13 @@ public class DistributionHistory {
 	    private Timestamp createdAt;
 	    private Timestamp modifiedAt;
 	    private Timestamp endAt;
+	    private String xRoomId;
+		public void setXRoomId(String x_room_id) {
+			this.xRoomId = x_room_id;
+		}
+		public String getXRoomId() {
+			return xRoomId;
+		}
 		public String getToken() {
 			return token;
 		}
