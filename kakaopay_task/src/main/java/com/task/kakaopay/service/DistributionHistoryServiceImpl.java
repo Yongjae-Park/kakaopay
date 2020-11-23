@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.task.kakaopay.domain.DistributionHistory;
@@ -26,7 +27,7 @@ public class DistributionHistoryServiceImpl implements DistributionHistoryServic
 		distributionMapper.createDsHistory(distributionHistory);
 	}
 
-	@Transactional
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@Override
 	public Map<String,Integer> getOneDsHistory(String token, String x_user_id, String x_room_id) throws Exception {
 		//check user exception case before select 

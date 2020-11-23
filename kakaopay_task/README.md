@@ -46,6 +46,7 @@ $ java -jar target/kakaopay_task-0.0.1-SNAPSHOT.war
 	- splash등록과 분배건 등록은 하나의 트랜잭션으로 처리 @Transactionnal사용
 	  - 뿌리기건 자체가 등록되지 않으면 분배건, 뿌리기건 조회 가 불가능하므로 Dirty Read 고려 x
 	  - token은 요청마다 고유하게 부여되므로 non-Repeatable read고려 x
+	  - 위 사항 바탕으로 race condition 고려 x
 	  - isolation level default로 하여 성능 저하 x
 - 뿌린 머니 받기 API 개발
   - token에 해당하는 뿌리기건 중 아직 누구에게도 할당되지 않은 분배건 하나 할당
@@ -58,6 +59,11 @@ $ java -jar target/kakaopay_task-0.0.1-SNAPSHOT.war
   - 자신이 뿌리기한 건은 자신이 받을 수 없음
     - 본인이 뿌린요청건의 토큰으로 받기요청한 경우 예외처리
   - 뿌린건은 10분간만 유효, 뿌린지 10분이 지난 요청에 대해서는 받기 실패
+  - 분배건 중 하나 받은 후 is_completed flag true 처리하는 동작 하나의 트랜잭션으로 처리
+    - 선행 유저의 요청으로 가져온 distribution에 대해 is_completed flag 커밋하지 않은 상황에서 또다른 요청 올경우 Dirty read발생 가능성
+	- 같은쿼리 두번 실행 아니므로 Non-Repeatable Read고려 x
+	- 레코드 두번 이상 읽지 않으므로 Phantom Read 고려 x
+	- @Transactional(isolation = Isolation.READ_COMMITTED)처리
 - 뿌린 머니 정보 조회 API 개발
   - token에 해당하는 뿌리기 건의 현재 상태 응답값으로 내려줌
   - 응답정보 포함사항 (뿌린시각, 뿌린금액, 받기 완료된 금액, 받기 완료된 정보(\[받은 금액, 받은 사용자아이디]리스트)
