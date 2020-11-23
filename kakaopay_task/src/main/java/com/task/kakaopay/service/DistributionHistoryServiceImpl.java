@@ -38,9 +38,9 @@ public class DistributionHistoryServiceImpl implements DistributionHistoryServic
 		//select one DistributionHistory
 		GetDsVO distributionVO = distributionMapper.getOneDsHistory(token, x_user_id);
 		//exception occur 3. does not match room id
-				if(!distributionVO.getxRoomId().equals(x_room_id)) {
-					throw new CustomRuntimeException(UserExceptionType.WRONG_ROOM_ACCESS);
-				}
+		if(!distributionVO.getxRoomId().equals(x_room_id)) {
+			throw new CustomRuntimeException(UserExceptionType.WRONG_ROOM_ACCESS);
+		}
 		//exception occur 2. when request user == userSplashed
 		if(distributionVO.getUserIdSplashed().equals(x_user_id)) {
 			throw new CustomRuntimeException(UserExceptionType.ANYONE_BUT_NOT_YOURSELF);
