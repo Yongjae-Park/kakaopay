@@ -27,7 +27,7 @@
 ```
 $ git clone https://github.com/CODEMCD/kakaopay-task3.git
 $ cd kakaopay/kakaopay_task
-$ ./mvn clean build
+$ ./mvn clean install -DskipTests
 $ java -jar target/kakaopay_task-0.0.1-SNAPSHOT.war
 ```
 
