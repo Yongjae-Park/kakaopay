@@ -40,7 +40,7 @@ public class SplashController {
     	log.info("register");
     	//call service Inserting Into Splash
     	Splash splashDataObject = new Splash();
-    	String token = TokenUtil.generateToken(); //TODO: 토큰 고유값 생성
+    	String token = TokenUtil.generateToken();
     	int splashedMoney = splashRequestVO.getSplashedMoney();
     	int personnel = splashRequestVO.getPersonnel();
     	
@@ -51,7 +51,7 @@ public class SplashController {
     	splashDataObject.setPersonnel(personnel);
     	
     	Map<String,String> tokenMap = splashService.registeSplashAndDistributions(splashDataObject);
-    	dsHistoryService.initializingAutoIncrement();//이때마다 초기화해도되잖아? 는 처음엔 어떡해
+//    	dsHistoryService.initializingAutoIncrement();TODO: 나중에 7일 지난 뿌리기건, 10분 지난 분배건 삭제 로직 추가될 때  as_increment도 필요 현재 요구사항에는 필요없음
     	return new ResponseEntity<>(tokenMap, HttpStatus.OK);
     	
     }
