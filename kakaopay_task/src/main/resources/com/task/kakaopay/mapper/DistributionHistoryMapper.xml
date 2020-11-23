@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
               #{userIdTaken},
               #{allocatedMoney},
               #{completed},
-              #{createdAt},
+              current_timestamp,
               #{modifiedAt},
               date_add(now(), interval 10 minute),
               #{xRoomId}
@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	<result property="userIdTaken" column="user_id_taken"/>
     </resultMap>
     <select id="getOneDsHistory" resultMap="resultGetDs">
-    	SELECT user_id_splashed, distribution_no, is_completed, allocated_money, user_id_taken
+    	SELECT user_id_splashed, distribution_no, is_completed, allocated_money, user_id_taken, x_room_Id, expired_at
     	FROM distribution_history
     	where token = #{token} and is_completed ='false' limit 1
     </select>

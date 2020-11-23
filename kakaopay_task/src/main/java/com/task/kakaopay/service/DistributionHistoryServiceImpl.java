@@ -1,11 +1,11 @@
 package com.task.kakaopay.service;
 
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Period;
 
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;import org.springframework.format.number.money.CurrencyUnitFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,30 +31,33 @@ public class DistributionHistoryServiceImpl implements DistributionHistoryServic
 	public JSONObject getOneDsHistory(String token, String x_user_id, String x_room_id) throws Exception {
 		//check user exception case before select 
 		//exception occur 1. when request user == userIdTaken
-		//		TODO: select추가 - 
 		String userIdTaken = getUserIdTaken(token, x_user_id);
     	if(userIdTaken != null && userIdTaken.equals(x_user_id)) {
 			throw new CustomRuntimeException(UserExceptionType.DUPLICATED_USER);
 		}
-		
 		//select one DistributionHistory
 		GetDsVO distributionVO = mapper.getOneDsHistory(token, x_user_id);
 		//exception occur 2. when request user == userSplashed
 		if(distributionVO.getUserIdSplashed().equals(x_user_id)) {
 			throw new CustomRuntimeException(UserExceptionType.ANYONE_BUT_NOT_YOURSELF);
 		}
-		//TODO: exception occur 3. does not match room id
-//		if(.equals(x_room_id)) {
-//			throw new CustomRuntimeException(UserExceptionType.WRONG_ROOM_ACCESS);
-//		}
-		//TODO: exception occur 4. expired splash
-//		if())
-//		    throw new CustomRuntimeException(UserExceptionType.HAS_EXPIRED_SPLASH);
+		//exception occur 3. does not match room id
+		if(!distributionVO.getxRoomId().equals(x_room_id)) {
+			throw new CustomRuntimeException(UserExceptionType.WRONG_ROOM_ACCESS);
+		}
+		//exception occur 4. expired splash
+		LocalDateTime currentTime = LocalDateTime.now();
+		Duration duration = Duration.between(distributionVO.getExpiredAt(), currentTime);
+		if(duration.toSeconds() > 600)
+		    throw new CustomRuntimeException(UserExceptionType.HAS_EXPIRED_SPLASH);
 		//completion setting for have been received
 		mapper.updateisCompleted(distributionVO.getDistributionNo(), x_user_id);
         JSONObject returnJson = new JSONObject();
+        
+//		Map<String,Integer> returnMap = new HashMap<>();
+//		returnMap.put("winMoney", distributionVO.getAllocatedMoney());
 		
-			returnJson.put("winMoney",distributionVO.getAllocatedMoney());
+		returnJson.put("winMoney",distributionVO.getAllocatedMoney());
 		
 		return returnJson;
 	}

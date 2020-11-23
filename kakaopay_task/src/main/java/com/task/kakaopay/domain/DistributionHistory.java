@@ -1,7 +1,6 @@
 package com.task.kakaopay.domain;
 
-import java.sql.Timestamp;
-
+import java.time.LocalDateTime;
 
 public class DistributionHistory {
 	    private String token;
@@ -9,9 +8,9 @@ public class DistributionHistory {
 	    private String userIdTaken;
 	    private int allocatedMoney;
 	    private boolean completed;
-	    private Timestamp createdAt;
-	    private Timestamp modifiedAt;
-	    private Timestamp endAt;
+	    private LocalDateTime createdAt;
+	    private LocalDateTime modifiedAt;
+	    private LocalDateTime endAt;
 	    private String xRoomId;
 		public void setXRoomId(String x_room_id) {
 			this.xRoomId = x_room_id;
@@ -49,22 +48,22 @@ public class DistributionHistory {
 		public void setCompleted(boolean completed) {
 			this.completed = completed;
 		}
-		public Timestamp getCreatedAt() {
+		public LocalDateTime getCreatedAt() {
 			return createdAt;
 		}
-		public void setCreatedAt(Timestamp createdAt) {
+		public void setCreatedAt(LocalDateTime createdAt) {
 			this.createdAt = createdAt;
 		}
-		public Timestamp getModifiedAt() {
+		public LocalDateTime getModifiedAt() {
 			return modifiedAt;
 		}
-		public void setModifiedAt(Timestamp modifiedAt) {
+		public void setModifiedAt(LocalDateTime modifiedAt) {
 			this.modifiedAt = modifiedAt;
 		}
-		public Timestamp getEndAt() {
+		public LocalDateTime getEndAt() {
 			return endAt;
 		}
-		public void setEndAt(Timestamp endAt) {
+		public void setEndAt(LocalDateTime endAt) {
 			this.endAt = endAt;
 		}
 
