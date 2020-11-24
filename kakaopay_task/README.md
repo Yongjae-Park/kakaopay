@@ -25,7 +25,7 @@
 - Git, Java 는 설치되어 있다고 가정한다.
 
 ```
-$ git clone https://github.com/CODEMCD/kakaopay-task3.git
+$ git clone https://github.com/Yongjae-Park/kakaopay.git
 $ cd kakaopay/kakaopay_task
 $ ./mvn clean install -DskipTests
 $ java -jar target/kakaopay_task-0.0.1-SNAPSHOT.war
